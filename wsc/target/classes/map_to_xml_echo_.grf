@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="samuel" created="Fri Sep 18 04:38:31 HKT 2015" description="Map To Xml&lt;echo&gt;" guiVersion="3.4.4.P" id="1442522805921" licenseCode="Unlicensed" licenseType="Unknown" modified="Fri Sep 18 04:38:31 HKT 2015" modifiedBy="samuel" name="Map_To_Xml_echo_" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/echo" _dataStructure="OBJECT" _id="__id" _type="Input" id="96a86f15-5263-4129-abcc-6d13a49ff863">
+<Record fieldDelimiter="," name="echo" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/echo/arg0" containerType="SINGLE" label="arg0" name="arg0" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __schemaType="{http://wss1/}echo" __sourcePath="{http://wss1/=ns0}/ns0:echo" _dataStructure="OBJECT" _id="__id" _type="Output" id="e94eff18-5671-4e62-999c-bd83758532ae">
+<Record fieldDelimiter="," name="echo" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __implementationClass="java.lang.String" __index="0" __sourcePath="{http://wss1/=ns0}/ns0:echo/arg0" containerType="SINGLE" label="arg0" name="arg0" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" fileURL="dict:inputPayload" guiName="Map&lt;k,v&gt; READER" guiX="20" guiY="20" id="BEAN_READER0" type="BEAN_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath=".">
+  <Mapping cloverField="arg0" trim="true" xpath="arg0"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[MAP]]></attr>
+</Node>
+<Node enabled="enabled" fileURL="dict:outputPayload" guiName="XML WRITER" guiX="900" guiY="20" id="EXT_XML_WRITER0" type="EXT_XML_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:element clover:name="ns0:echo" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" xmlns:ns0="http://wss1/" clover:inPort="0">
+  <arg0>$0.arg0</arg0>
+</clover:element>]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__metadata"><![CDATA[true]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'echo' -&gt; 'ns0:echo'" guiX="460" guiY="20" id="FOREACH_ECHO_NS0_ECHO" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.arg0 = input.arg0;
+]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="BEAN_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="96a86f15-5263-4129-abcc-6d13a49ff863" outPort="Port 0 (out)" toNode="FOREACH_ECHO_NS0_ECHO:0"/>
+<Edge debugMode="true" fromNode="FOREACH_ECHO_NS0_ECHO:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="e94eff18-5671-4e62-999c-bd83758532ae" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:0"/>
+</Phase>
+</Graph>
